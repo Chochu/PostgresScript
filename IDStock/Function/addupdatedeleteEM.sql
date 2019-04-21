@@ -20,11 +20,11 @@ AS $BODY$
 			--Add
 			IF (SELECT COUNT(*) FROM "ExchangeMaster" where "exchange" = pexchange) = 0 THEN
 				INSERT INTO "ExchangeMaster"("exchange"
-											 , "Region"
+											 , "region"
 											 , "description"									
 											)
 				values (pexchange 
-						,pRegion 
+						,pregion 
 						,pdescription
 					   );
 				ReturnCode := 'A';						
@@ -32,7 +32,7 @@ AS $BODY$
 			ELSE 
 				Update "ExchangeMaster"
 				SET "exchange" = pexchange
-					,"Region" = pRegion
+					,"region" = pregion
 					,"description" = pdescription		
 				WHERE "exchange" = pexchange;
 				ReturnCode := 'U';
