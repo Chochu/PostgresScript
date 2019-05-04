@@ -11,29 +11,29 @@ CREATE OR REPLACE FUNCTION public.uf_getSecurityMasterLike(
 	 "exchange" character varying,
 	 "currency" character varying,
 	 "isEnabled" boolean
-	) 
+	)
     LANGUAGE 'plpgsql'
 AS $BODY$
 DECLARE var_search character varying;
 BEGIN
-	
+
 	var_search  :=  '%' || pSecurity || '%';
 
-	RETURN QUERY 
-	SELECT  "SecurityMaster"."SecurityName", 
-			"SecurityMaster"."Region", 
-			"SecurityMaster"."Startdate", 
-			"SecurityMaster"."Symbol", 
-			"SecurityMaster"."iexID", 
-			"SecurityMaster"."StockType", 
-			"SecurityMaster".exchange, 
-			"SecurityMaster".currency, 
+	RETURN QUERY
+	SELECT  "SecurityMaster"."SecurityName",
+			"SecurityMaster"."Region",
+			"SecurityMaster"."Startdate",
+			"SecurityMaster"."Symbol",
+			"SecurityMaster"."iexID",
+			"SecurityMaster"."StockType",
+			"SecurityMaster".exchange,
+			"SecurityMaster".currency,
 			"SecurityMaster"."isEnabled"
 	FROM public."SecurityMaster"
-	WHERE "SecurityMaster"."SecurityName" LIKE var_search
-		OR "SecurityMaster"."Symbol" LIKE var_search;
-     
-END; 
+	WHERE lower("SecurityMaster"."SecurityName") LIKE lower(var_search)
+		OR lower("SecurityMaster"."Symbol") LIKE lower(var_search);
+
+END;
 $BODY$;
 
 ALTER FUNCTION public.uf_getSecurityMasterLike(character varying)
