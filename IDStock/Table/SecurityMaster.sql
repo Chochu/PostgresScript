@@ -1,8 +1,8 @@
--- Table: public."SecurityMaster"
+-- Table: public.securitymaster
 
--- DROP TABLE public."SecurityMaster";
+-- DROP TABLE public.securitymaster;
 
-CREATE TABLE public."SecurityMaster"
+CREATE TABLE public.securitymaster
 (
     "SecurityName" character varying COLLATE pg_catalog."default",
     "Region" character varying COLLATE pg_catalog."default",
@@ -20,5 +20,5 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public."SecurityMaster"
+ALTER TABLE public.securitymaster
     OWNER to postgres;

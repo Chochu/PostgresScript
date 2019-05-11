@@ -1,8 +1,8 @@
--- Table: public."ExchangeMaster"
+-- Table: public.exchangemaster
 
--- DROP TABLE public."ExchangeMaster";
+-- DROP TABLE public.exchangemaster;
 
-CREATE TABLE public."ExchangeMaster"
+CREATE TABLE public.exchangemaster
 (
     exchange character varying COLLATE pg_catalog."default" NOT NULL,
     region character varying COLLATE pg_catalog."default",
@@ -13,5 +13,5 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public."ExchangeMaster"
+ALTER TABLE public.exchangemaster
     OWNER to postgres;
