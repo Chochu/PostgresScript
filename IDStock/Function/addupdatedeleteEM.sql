@@ -1,54 +1,54 @@
--- FUNCTION: public.addupdatedeletesm(character varying, character varying, character varying, date, character varying, character varying, character varying, character varying, boolean, character varying)
+-- FUNCTION: public.addupdatedeleteem(character varying, character varying, character varying, character varying)
 
--- DROP FUNCTION public.addupdatedeletesm(character varying, character varying, character varying, date, character varying, character varying, character varying, character varying, boolean, character varying);
+-- DROP FUNCTION public.addupdatedeleteem(character varying, character varying, character varying, character varying);
 
-CREATE OR REPLACE FUNCTION public.addupdatedeleteEM(
+CREATE OR REPLACE FUNCTION public.addupdatedeleteem(
 	pexchange character varying,
 	pregion character varying,
-	pdescription character varying,	
+	pdescription character varying,
 	actiontype character varying)
     RETURNS character varying
     LANGUAGE 'plpgsql'
 
     COST 100
-    VOLATILE 
+    VOLATILE
 AS $BODY$
-   DECLARE      
+   DECLARE
       ReturnCode varchar(255);
    BEGIN
 		IF ActionType = 'A' or ActionType = 'U' THEN
 			--Add
-			IF (SELECT COUNT(*) FROM "ExchangeMaster" where "exchange" = pexchange) = 0 THEN
+			IF (SELECT COUNT(*) FROM ExchangeMaster where "exchange" = pexchange) = 0 THEN
 				INSERT INTO "ExchangeMaster"("exchange"
 											 , "region"
-											 , "description"									
+											 , "description"
 											)
-				values (pexchange 
-						,pregion 
+				values (pexchange
+						,pregion
 						,pdescription
 					   );
-				ReturnCode := 'A';						
+				ReturnCode := 'A';
 			--Update
-			ELSE 
-				Update "ExchangeMaster"
+			ELSE
+				Update ExchangeMaster
 				SET "exchange" = pexchange
 					,"region" = pregion
-					,"description" = pdescription		
+					,"description" = pdescription
 				WHERE "exchange" = pexchange;
 				ReturnCode := 'U';
 			END IF;
 		--Delete
 		ELSIF ActionType = 'D' THEN
-			DELETE FROM "ExchangeMaster"
+			DELETE FROM ExchangeMaster
 			WHERE "exchange" = pexchange;
-			ReturnCode := 'D';	 
+			ReturnCode := 'D';
 		ELSE
-		  	ReturnCode := 'E';	 
-		END IF;	
-	       
+		  	ReturnCode := 'E';
+		END IF;
+
       RETURN ReturnCode;
-   END; 
+   END;
 $BODY$;
 
-ALTER FUNCTION public.addupdatedeleteEM(character varying, character varying, character varying, character varying)
+ALTER FUNCTION public.addupdatedeleteem(character varying, character varying, character varying, character varying)
     OWNER TO postgres;

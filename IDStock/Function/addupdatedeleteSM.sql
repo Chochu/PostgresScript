@@ -17,15 +17,15 @@ CREATE OR REPLACE FUNCTION public.addupdatedeletesm(
     LANGUAGE 'plpgsql'
 
     COST 100
-    VOLATILE 
+    VOLATILE
 AS $BODY$
-   DECLARE      
+   DECLARE
       ReturnCode varchar(255);
    BEGIN
 		IF ActionType = 'A' or ActionType = 'U' THEN
 			--Add
-			IF (SELECT COUNT(*) FROM "SecurityMaster" where "iexID" = piexID) = 0 THEN
-				INSERT INTO "SecurityMaster"("SecurityName"
+			IF (SELECT COUNT(*) FROM SecurityMaster where "iexID" = piexID) = 0 THEN
+				INSERT INTO SecurityMaster("SecurityName"
 											 , "Region"
 											 , "Startdate"
 											 , "Symbol"
@@ -33,25 +33,25 @@ AS $BODY$
 											 , "StockType"
 											 , "exchange"
 											 , "currency"
-											 , "isEnabled"										
+											 , "isEnabled"
 											)
-				values (pSecurityName 
-						,pRegion 
+				values (pSecurityName
+						,pRegion
 						,pStartdate
-						,pSymbol 
-						,piexID 
+						,pSymbol
+						,piexID
 						,pStockType
 						,pexchange
-						,pcurrency 
+						,pcurrency
 						,pisEnabled
 					   );
-				ReturnCode := 'A';						
+				ReturnCode := 'A';
 			--Update
-			ELSE 
-				Update "SecurityMaster"
+			ELSE
+				Update SecurityMaster
 				SET "SecurityName" = pSecurityName
 					,"Region" = pRegion
-					,"Startdate" = pStartdate					
+					,"Startdate" = pStartdate
 					,"Symbol" = pSymbol
 					,"StockType" = pStockType
 					,"exchange" =  pexchange
@@ -62,15 +62,15 @@ AS $BODY$
 			END IF;
 		--Delete
 		ELSIF ActionType = 'D' THEN
-			DELETE FROM "SecurityMaster"
+			DELETE FROM SecurityMaster
 			WHERE "iexID" = piexID;
-			ReturnCode := 'D';	 
+			ReturnCode := 'D';
 		ELSE
-		  	ReturnCode := 'E';	 
-		END IF;	
-	       
+		  	ReturnCode := 'E';
+		END IF;
+
       RETURN ReturnCode;
-   END; 
+   END;
 $BODY$;
 
 ALTER FUNCTION public.addupdatedeletesm(character varying, character varying, character varying, date, character varying, character varying, character varying, character varying, boolean, character varying)
